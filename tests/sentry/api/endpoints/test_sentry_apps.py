@@ -60,6 +60,7 @@ class GetSentryAppsTest(SentryAppsTest):
             'name': self.published_app.name,
             'slug': self.published_app.slug,
             'scopes': [],
+            'events': [],
             'status': self.published_app.get_status_display(),
             'uuid': self.published_app.uuid,
             'webhookUrl': self.published_app.webhook_url,
@@ -81,6 +82,7 @@ class GetSentryAppsTest(SentryAppsTest):
             'name': self.unpublished_app.name,
             'slug': self.unpublished_app.slug,
             'scopes': [],
+            'events': [],
             'status': self.unpublished_app.get_status_display(),
             'uuid': self.unpublished_app.uuid,
             'webhookUrl': self.unpublished_app.webhook_url,
@@ -161,6 +163,7 @@ class PostSentryAppsTest(SentryAppsTest):
             'name': 'MyApp',
             'organization': self.org.slug,
             'scopes': ('project:read', 'project:write'),
+            'events': [],
             'webhookUrl': 'https://example.com',
             'isAlertable': False,
         }

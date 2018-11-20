@@ -112,6 +112,7 @@ class UpdateSentryAppDetailsTest(SentryAppDetailsTest):
             'name': 'NewName',
             'slug': self.published_app.slug,
             'scopes': [],
+            'events': [],
             'status': self.published_app.get_status_display(),
             'uuid': self.published_app.uuid,
             'webhookUrl': 'https://newurl.com',

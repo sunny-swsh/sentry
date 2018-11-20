@@ -12,6 +12,7 @@ class Creator(Mediator):
     name = Param(six.string_types)
     organization = Param('sentry.models.Organization')
     scopes = Param(Iterable)
+    events = Param(Iterable, default=lambda self: [])
     webhook_url = Param(six.string_types)
     redirect_url = Param(six.string_types, required=False)
     is_alertable = Param(bool, default=False)
@@ -41,6 +42,7 @@ class Creator(Mediator):
             owner=self.organization,
             proxy_user=self.proxy,
             scope_list=self.scopes,
+            events=self.events,
             webhook_url=self.webhook_url,
             redirect_url=self.redirect_url,
             is_alertable=self.is_alertable,

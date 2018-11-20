@@ -29,3 +29,8 @@ class TestCreator(TestCase):
 
         assert service_hook
         assert service_hook.events == ['event.created']
+
+    def test_expands_resource_events_to_specific_events(self):
+        self.creator.events = ['issue']
+        service_hook = self.creator.call()
+        assert service_hook.events == ['issue.created']
