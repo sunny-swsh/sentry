@@ -225,6 +225,19 @@ class GroupSerializer(Serializer):
                     safe_execute(plugin.get_annotations, group=item, _with_transaction=False) or ()
                 )
 
+            from sentry.integrations import IntegrationFeatures
+            from sentry.models import Integration
+            for integration in Integration.objects.filter(
+                    organizations=item.project.organization_id):
+                if not (integration.has_feature(IntegrationFeatures.ISSUE_BASIC) or integration.has_feature(
+                        IntegrationFeatures.ISSUE_SYNC)):
+                    continue
+
+                install = integration.get_installation(item.project.organization_id)
+                annotations.extend(
+                    safe_execute(install.get_annotations, group=item, _with_transaction=False) or ()
+                )
+
             resolution = resolutions.get(item.id)
             if resolution:
                 resolution_actor = actors.get(resolution[-1])
@@ -371,7 +384,8 @@ class StreamGroupSerializer(GroupSerializer):
         '24h': StatsPeriod(24, timedelta(hours=1)),
     }
 
-    def __init__(self, environment_func=None, stats_period=None, matching_event_id=None, matching_event_environment=None):
+    def __init__(self, environment_func=None, stats_period=None,
+                 matching_event_id=None, matching_event_environment=None):
         super(StreamGroupSerializer, self).__init__(environment_func)
 
         if stats_period is not None:
