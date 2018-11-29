@@ -14,9 +14,10 @@ from sentry.api.serializers import Serializer, register, serialize
 from sentry.api.serializers.models.actor import ActorSerializer
 from sentry.api.fields.actor import Actor
 from sentry.constants import LOG_LEVELS, StatsPeriod
+from sentry.integrations import IntegrationFeatures
 from sentry.models import (
     Environment, Group, GroupAssignee, GroupBookmark, GroupMeta, GroupResolution, GroupSeen, GroupSnooze,
-    GroupShare, GroupStatus, GroupSubscription, GroupSubscriptionReason, User, UserOption,
+    GroupShare, GroupStatus, GroupSubscription, GroupSubscriptionReason, Integration, User, UserOption,
     UserOptionValue
 )
 from sentry.utils.db import attach_foreignkey
@@ -225,8 +226,6 @@ class GroupSerializer(Serializer):
                     safe_execute(plugin.get_annotations, group=item, _with_transaction=False) or ()
                 )
 
-            from sentry.integrations import IntegrationFeatures
-            from sentry.models import Integration
             for integration in Integration.objects.filter(
                     organizations=item.project.organization_id):
                 if not (integration.has_feature(IntegrationFeatures.ISSUE_BASIC) or integration.has_feature(
