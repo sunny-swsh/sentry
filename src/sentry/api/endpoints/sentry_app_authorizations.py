@@ -14,6 +14,7 @@ class SentryAppAuthorizationsEndpoint(SentryAppAuthorizationsBaseEndpoint):
             token = Authorizer.run(
                 grant_type=request.json_body.get('grant_type'),
                 code=request.json_body.get('code'),
+                refresh_token=request.json_body.get('refresh_token'),
                 client_id=request.json_body.get('client_id'),
                 user=request.user,
                 install=installation,
