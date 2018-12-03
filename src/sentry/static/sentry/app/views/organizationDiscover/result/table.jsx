@@ -8,8 +8,9 @@ import Link from 'app/components/link';
 import Tooltip from 'app/components/tooltip';
 import InlineSvg from 'app/components/inlineSvg';
 import Panel from 'app/components/panels/panel';
+import EmptyStateWarning from 'app/components/emptyStateWarning';
+
 import {getDisplayValue, getDisplayText} from './utils';
-import NoResults from './noResults';
 
 const TABLE_ROW_HEIGHT = 30;
 const TABLE_ROW_BORDER = 1;
@@ -264,7 +265,9 @@ export default class ResultTable extends React.Component {
             }}
           </AutoSizer>
         </Grid>
-        {!data.length && <NoResults />}
+        {!data.length && (
+          <EmptyStateWarning small={true}>{t('No results')}</EmptyStateWarning>
+        )}
       </Panel>
     );
   }
